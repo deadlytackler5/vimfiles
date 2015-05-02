@@ -1,0 +1,95 @@
+
+	set nocompatible
+	syntax on
+	filetype plugin indent on
+    set lines=40 columns=100
+    set wildmenu    " better command line completion
+    set showcmd     " show partial commands in the last line of the screen
+    set hlsearch    " highlight searches
+" copied from vimrc
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+" Define Map leader
+	:let mapleader="Q"
+
+" Tab Options
+	set tabstop=4       " number of visual spaces per TAB
+	set softtabstop=4   " number of spaces in tab when editing
+	set expandtab       " tabs are spaces
+	
+set textwidth=80
+set formatoptions+=t
+set number              " show line numbers
+set ruler
+set mouse=a
+set history=1000
+set undolevels=1000
+set vb
+set autoindent
+set showcmd             " show command in bottom bar
+set wildmenu            " visual autocomplete for command menu
+set showmatch           " highlight matching [{()}]
+set incsearch           " search as characters are entered
+
+set foldenable          " enable folding
+set foldlevelstart=10   " open most folds by default
+set foldmethod=indent   " fold based on indent level
+
+" move vertically by visual line
+	nnoremap j gj
+	nnoremap k gk
+
+
+
+" Setting Fonts and color scheme
+	if has('gui_running')
+		set guifont=Consolas:h10
+		colorscheme pablo
+	endif
+
+:set autoread
+
+set ch=2		" Make command line two lines high
+
+set mousehide		" Hide the mouse when typing tex
+
+"	For Pathogen
+	execute pathogen#infect() 
+"	call pathogen#runtime_append_all_bundles()
+	call pathogen#helptags() " generate helptags for everything in 'runtimepath'
+
+" for txtfmt-Set up detection for Txtfmt files
+    au! filetypedetect BufRead,BufNewFile *.txt    setfiletype txtfmt
+    
+"   for Vim-airline
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    set laststatus=2
