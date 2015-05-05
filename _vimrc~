@@ -36,8 +36,8 @@ set foldmethod=indent   " fold based on indent level
 
 " Setting Fonts and color scheme
 	if has('gui_running')
-		set guifont=Consolas:h10
-		colorscheme pablo
+		set guifont=Andale_Mono:h10:cANSI
+		colorscheme darkblue
 	endif
 
 :set autoread
